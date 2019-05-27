@@ -1,9 +1,19 @@
 /*input
-1+15*10-4/2
+(-3)^3+7*(-4)+2/5
 */
 #include<bits/stdc++.h>
 using namespace std;
+///testai
+///1+15*10-4/2
+///149
+///veikia
 
+/// (10^2-3)*2
+///194
+///veikia
+
+///(-3)^3+7*(-4)
+///-55
 struct veiksmai
 {
 	string eilute;
@@ -21,6 +31,7 @@ struct veiksmai
 		Skaiciuoti();
 		SpausdintiViska();
 	}
+	veiksmai() { }
 	void Skaiciai()
 	{
 		//cout << "nu ok";
@@ -41,9 +52,37 @@ struct veiksmai
 					naujas *= 10;
 					naujas += eilute[j]-'0';
 				}
+				if(eilute[kitas]=='.')
+				{
+					double daug = 1;
+					for(int j=kitas+1; j<eilute.size(); j++)
+					{
+						daug /= 10;
+						if(('0'<=eilute[i]) && (eilute[i]<='9'))
+							naujas += daug * (eilute[i]-'0');
+						else
+							break;
+					}
+				}
 				skaiciai.push_back(naujas);
 				skaiciuvieta.push_back(make_pair(i, kitas-1));
 				i = kitas -1;
+			}
+		}
+		neigiami();
+	}
+	void neigiami()
+	{
+		for(int i=0; i<skaiciai.size(); i++)
+		{
+			if((skaiciuvieta[i].first>=2) && (skaiciuvieta[i].second!=eilute.size()-1))
+			{
+				if((eilute[skaiciuvieta[i].first-1]=='-') && (eilute[skaiciuvieta[i].first-2]=='(') && (eilute[skaiciuvieta[i].second +1]==')'))
+				{
+					skaiciai[i] = - skaiciai[i];
+					eilute[skaiciuvieta[i].first-1] = '_';			
+
+				}
 			}
 		}
 	}
@@ -68,14 +107,18 @@ struct veiksmai
 				skl--;
 			else if((eilute[i]<'0') || ('9'<eilute[i]))
 			{
-				operacijos.push_back(eilute[i]);
-				if(eilute[i]=='^')
-					tvarka.push_back(2);
-				else if ((eilute[i]=='*') || (eilute[i]=='/'))
-					tvarka.push_back(1);
-				else
-					tvarka.push_back(0);
-				gylis.push_back(skl);
+				if(eilute[i]!='_')
+				{
+					operacijos.push_back(eilute[i]);
+					if(eilute[i]=='^')
+						tvarka.push_back(2);
+					else if ((eilute[i]=='*') || (eilute[i]=='/'))
+						tvarka.push_back(1);
+					else
+						tvarka.push_back(0);
+					gylis.push_back(skl);					
+				}
+
 			}
 		}
 		tvarkon();
