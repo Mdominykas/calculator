@@ -1,5 +1,5 @@
 /*input
-(-3)^3+7*(-4)+2/5
+(4,8^(1/4)-9)-(7,5/8,7-44)
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -14,6 +14,16 @@ using namespace std;
 
 ///(-3)^3+7*(-4)
 ///-55
+
+///7,1+(((4,8^(1/4)-9)-(7,5/8,7-44))/((4,12*5-5,5^(2/5)-7,7)/(8,8-9/4,2*5,5))-2,5)       -5,13648
+
+///(((4,8^(1/4)-9)-(7,5/8,7-44))/((4,12*5-5,5^(2/5)-7,7)/(8,8-9/4,2*5,5))-2,5)  -12,23
+
+///(((((5*(4,4-9)-6,6)*4,4-8)/7,7+4)-8,8+9,8/4,56)-9,9)     -30,5041
+
+///8,8^(4-6,6)  0,003502
+
+///(4,8^(1/4)-9)-(7,5/8,7-44) 35,6
 struct veiksmai
 {
 	string eilute;
@@ -52,18 +62,20 @@ struct veiksmai
 					naujas *= 10;
 					naujas += eilute[j]-'0';
 				}
-				if(eilute[kitas]=='.')
+				cout << naujas;
+				if((eilute[kitas]=='.') || (eilute[kitas]==','))
 				{
 					double daug = 1;
-					for(int j=kitas+1; j<eilute.size(); j++)
+					for(kitas = kitas+1; kitas<eilute.size(); kitas++)
 					{
 						daug /= 10;
-						if(('0'<=eilute[i]) && (eilute[i]<='9'))
-							naujas += daug * (eilute[i]-'0');
+						if(('0'<=eilute[kitas]) && (eilute[kitas]<='9'))
+							naujas += daug * (eilute[kitas]-'0');
 						else
 							break;
 					}
 				}
+				cout << "      " << naujas << endl;
 				skaiciai.push_back(naujas);
 				skaiciuvieta.push_back(make_pair(i, kitas-1));
 				i = kitas -1;
@@ -107,7 +119,7 @@ struct veiksmai
 				skl--;
 			else if((eilute[i]<'0') || ('9'<eilute[i]))
 			{
-				if(eilute[i]!='_')
+				if((eilute[i]!='_') && (eilute[i]!='.') && (eilute[i]!=','))
 				{
 					operacijos.push_back(eilute[i]);
 					if(eilute[i]=='^')
